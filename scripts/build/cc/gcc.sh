@@ -551,7 +551,8 @@ do_gcc_core_backend() {
     # requires somewhere between 257 and 512.
     if [ "${host}" = "${CT_BUILD}" ]; then
         if ${CT_BUILD}-gcc --version 2>&1 | grep clang; then
-            cflags="$cflags "-fbracket-depth=512
+            # Why are we setting cflags here?
+            # cflags="$cflags "-fbracket-depth=512
             cflags_for_build="$cflags_for_build "-fbracket-depth=512
         fi
     else
@@ -1104,7 +1105,8 @@ do_gcc_backend() {
     # requires somewhere between 257 and 512.
     if [ "${host}" = "${CT_BUILD}" ]; then
         if ${CT_BUILD}-gcc --version 2>&1 | grep clang; then
-            cflags="$cflags "-fbracket-depth=512
+            # Why are we setting cflags here?
+            # cflags="$cflags "-fbracket-depth=512
             cflags_for_build="$cflags_for_build "-fbracket-depth=512
         fi
     else

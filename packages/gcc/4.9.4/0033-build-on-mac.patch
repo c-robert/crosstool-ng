@@ -1,0 +1,186 @@
+*** a/gcc/Makefile.in	2014-10-16 07:50:42.000000000 -0600
+--- b/gcc/Makefile.in	2018-08-08 07:58:57.000000000 -0600
+***************
+*** 966,976 ****
+  # This is the variable actually used when we compile. If you change this,
+  # you probably want to update BUILD_CFLAGS in configure.ac
+  ALL_CFLAGS = $(T_CFLAGS) $(CFLAGS-$@) \
+!   $(CFLAGS) $(INTERNAL_CFLAGS) $(COVERAGE_FLAGS) $(WARN_CFLAGS) @DEFS@
+  
+  # The C++ version.
+  ALL_CXXFLAGS = $(T_CFLAGS) $(CFLAGS-$@) $(CXXFLAGS) $(INTERNAL_CFLAGS) \
+!   $(COVERAGE_FLAGS) $(NOEXCEPTION_FLAGS) $(WARN_CXXFLAGS) @DEFS@
+  
+  # Likewise.  Put INCLUDES at the beginning: this way, if some autoconf macro
+  # puts -I options in CPPFLAGS, our include files in the srcdir will always
+--- 966,976 ----
+  # This is the variable actually used when we compile. If you change this,
+  # you probably want to update BUILD_CFLAGS in configure.ac
+  ALL_CFLAGS = $(T_CFLAGS) $(CFLAGS-$@) \
+!   $(CFLAGS) $(INTERNAL_CFLAGS) $(COVERAGE_FLAGS) $(WARN_CFLAGS) $(CFLAGS_FOR_BUILD) @DEFS@
+  
+  # The C++ version.
+  ALL_CXXFLAGS = $(T_CFLAGS) $(CFLAGS-$@) $(CXXFLAGS) $(INTERNAL_CFLAGS) \
+!   $(COVERAGE_FLAGS) $(NOEXCEPTION_FLAGS) $(WARN_CXXFLAGS) $(CFLAGS_FOR_BUILD) @DEFS@
+  
+  # Likewise.  Put INCLUDES at the beginning: this way, if some autoconf macro
+  # puts -I options in CPPFLAGS, our include files in the srcdir will always
+*** a/gcc/c/c-objc-common.c	2014-01-02 15:23:26.000000000 -0700
+--- b/gcc/c/c-objc-common.c	2018-07-31 14:20:30.000000000 -0600
+***************
+*** 17,22 ****
+--- 17,24 ----
+  along with GCC; see the file COPYING3.  If not see
+  <http://www.gnu.org/licenses/>.  */
+  
++ #include <new>                          // For placement new.
++ 
+  #include "config.h"
+  #include "system.h"
+  #include "coretypes.h"
+***************
+*** 30,37 ****
+  #include "langhooks.h"
+  #include "c-objc-common.h"
+  
+- #include <new>                          // For placement new.
+- 
+  static bool c_tree_printer (pretty_printer *, text_info *, const char *,
+  			    int, bool, bool, bool);
+  
+--- 32,37 ----
+*** a/gcc/cp/cp-objcp-common.c	2014-02-19 11:12:31.000000000 -0700
+--- b/gcc/cp/cp-objcp-common.c	2018-08-01 09:24:01.000000000 -0600
+***************
+*** 18,23 ****
+--- 18,25 ----
+  along with GCC; see the file COPYING3.  If not see
+  <http://www.gnu.org/licenses/>.  */
+  
++ #include <new>                       // For placement new.
++ 
+  #include "config.h"
+  #include "system.h"
+  #include "coretypes.h"
+***************
+*** 32,39 ****
+  #include "cxx-pretty-print.h"
+  #include "cp-objcp-common.h"
+  
+- #include <new>                       // For placement new.
+- 
+  /* Special routine to get the alias set for C++.  */
+  
+  alias_set_type
+--- 34,39 ----
+*** a/gcc/cp/error.c	2014-06-27 21:44:53.000000000 -0600
+--- b/gcc/cp/error.c	2018-08-01 11:23:32.000000000 -0600
+***************
+*** 17,22 ****
+--- 17,24 ----
+  along with GCC; see the file COPYING3.  If not see
+  <http://www.gnu.org/licenses/>.  */
+  
++ #include <new>                    // For placement-new.
++ 
+  #include "config.h"
+  #include "system.h"
+  #include "coretypes.h"
+***************
+*** 35,42 ****
+  #include "c-family/c-objc.h"
+  #include "ubsan.h"
+  
+- #include <new>                    // For placement-new.
+- 
+  #define pp_separate_with_comma(PP) pp_cxx_separate_with (PP, ',')
+  #define pp_separate_with_semicolon(PP) pp_cxx_separate_with (PP, ';')
+  
+--- 37,42 ----
+*** a/gcc/diagnostic.c	2014-01-23 02:13:08.000000000 -0700
+--- b/gcc/diagnostic.c	2018-08-01 09:22:18.000000000 -0600
+***************
+*** 22,27 ****
+--- 22,29 ----
+  /* This file implements the language independent aspect of diagnostic
+     message module.  */
+  
++ #include <new>                     // For placement new.
++ 
+  #include "config.h"
+  #include "system.h"
+  #include "coretypes.h"
+***************
+*** 33,40 ****
+  #include "diagnostic.h"
+  #include "diagnostic-color.h"
+  
+- #include <new>                     // For placement new.
+- 
+  #define pedantic_warning_kind(DC)			\
+    ((DC)->pedantic_errors ? DK_ERROR : DK_WARNING)
+  #define permissive_error_kind(DC) ((DC)->permissive ? DK_WARNING : DK_ERROR)
+--- 35,40 ----
+*** a/gcc/pretty-print.c	2014-01-02 15:23:26.000000000 -0700
+--- b/gcc/pretty-print.c	2018-08-01 11:20:58.000000000 -0600
+***************
+*** 18,23 ****
+--- 18,25 ----
+  along with GCC; see the file COPYING3.  If not see
+  <http://www.gnu.org/licenses/>.  */
+  
++ #include <new>                    // For placement-new.
++ 
+  #include "config.h"
+  #include "system.h"
+  #include "coretypes.h"
+***************
+*** 25,32 ****
+  #include "pretty-print.h"
+  #include "diagnostic-color.h"
+  
+- #include <new>                    // For placement-new.
+- 
+  #if HAVE_ICONV
+  #include <iconv.h>
+  #endif
+--- 27,32 ----
+*** a/gcc/tree-pretty-print.c	2014-06-30 10:35:48.000000000 -0600
+--- b/gcc/tree-pretty-print.c	2018-08-01 06:43:47.000000000 -0600
+***************
+*** 18,23 ****
+--- 18,25 ----
+  along with GCC; see the file COPYING3.  If not see
+  <http://www.gnu.org/licenses/>.  */
+  
++ #include <new>                           // For placement-new.
++ 
+  #include "config.h"
+  #include "system.h"
+  #include "coretypes.h"
+***************
+*** 37,44 ****
+  #include "value-prof.h"
+  #include "predict.h"
+  
+- #include <new>                           // For placement-new.
+- 
+  /* Local functions, macros and variables.  */
+  static const char *op_symbol (const_tree);
+  static void pretty_print_string (pretty_printer *, const char*);
+--- 39,44 ----
+*** a/libcpp/system.h	2014-01-02 15:24:45.000000000 -0700
+--- b/libcpp/system.h	2018-08-01 06:38:46.000000000 -0600
+***************
+*** 37,42 ****
+--- 37,46 ----
+  
+  #include <stdio.h>
+  
++ #ifdef __cplusplus
++ #include <new>
++ #endif
++ 
+  /* Define a generic NULL if one hasn't already been defined.  */
+  #ifndef NULL
+  #define NULL 0

@@ -1,0 +1,40 @@
+*** a/libstdc++-v3/config/locale/gnu/messages_members.h	2014-01-02 15:30:10.000000000 -0700
+--- b/libstdc++-v3/config/locale/gnu/messages_members.h	2018-08-17 09:41:20.000000000 -0600
+***************
+*** 33,39 ****
+--- 33,45 ----
+  
+  // Written by Benjamin Kosnik <bkoz@redhat.com>
+  
++ #ifdef _GLIBCXX_USE_NLS
+  #include <libintl.h>
++ #else
++ #define bindtextdomain(domainname, dirname)
++ #define textdomain(domainname)
++ #define gettext(msgid) msgid
++ #endif
+  
+  namespace std _GLIBCXX_VISIBILITY(default)
+  {
+diff -cr a/libstdc++-v3/po/string_literals.cc b/libstdc++-v3/po/string_literals.cc
+*** a/libstdc++-v3/po/string_literals.cc	2014-01-02 15:30:10.000000000 -0700
+--- b/libstdc++-v3/po/string_literals.cc	2018-08-17 09:41:22.000000000 -0600
+***************
+*** 20,26 ****
+  // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+  // <http://www.gnu.org/licenses/>.
+  
+! #include <libintl.h>
+  #define gettext_noop(Str) Str
+  
+  // For messages testsuite files.
+--- 20,28 ----
+  // see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+  // <http://www.gnu.org/licenses/>.
+  
+! #ifdef _GLIBCXX_USE_NLS
+! # include <libintl.h>
+! #endif
+  #define gettext_noop(Str) Str
+  
+  // For messages testsuite files.
